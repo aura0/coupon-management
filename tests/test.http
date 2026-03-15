@@ -1,0 +1,14 @@
+POST http://127.0.0.1:5000/applicable-coupons
+Content-Type: application/json
+
+{
+  "cart": {
+    "items": [
+      {
+        "product_id": 1,
+        "quantity": 4,
+        "price": 50
+      }
+    ]
+  }
+}
