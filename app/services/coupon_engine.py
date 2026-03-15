@@ -43,7 +43,7 @@ class CouponEngine:
     @staticmethod
     def calculate_discount(coupon, cart):
     
-        strategy = CouponEngine.STRATEGY_MAP.get(coupon.type)
+        strategy = CouponEngine.strategies.get(coupon.type)
     
         if not strategy:
             return 0, cart["items"]
