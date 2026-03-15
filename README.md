@@ -1,4 +1,6 @@
 
+---
+
 # Coupons Management API
 
 ### A Scalable, Extensible Discount Engine for E-Commerce
@@ -24,7 +26,7 @@ The system is designed with **clean separation of concerns**, making it easy to 
 ### High-Level Architecture
 
 ```
-Client (REST Client/Postman / Frontend)
+Client (REST Client / Postman / Frontend)
         ↓
 Flask Routes (Controller Layer)
         ↓
@@ -82,7 +84,7 @@ This ensures:
 
 ---
 
-## 3. Design Decisions (Senior-Level Explanation)
+## 3. Design Decisions 
 
 ### 1. Strategy Pattern Used
 
@@ -147,7 +149,7 @@ The system is designed so that:
 To add a new coupon type:
 
 1. Create new strategy class
-2. Register it in CouponEngine
+2. Register it in `CouponEngine`
 3. No changes needed in routes
 
 This makes the system future-proof.
@@ -158,7 +160,7 @@ This makes the system future-proof.
 
 ### Coupon Types Supported
 
-####  Cart-wise
+#### Cart-wise
 
 * Applies discount on total cart value
 * Threshold-based logic
@@ -173,7 +175,10 @@ This makes the system future-proof.
   }
 }
 ```
-####  Product-wise
+
+---
+
+#### Product-wise
 
 * Applies discount to specific product
 * Only if product exists in cart
@@ -187,12 +192,16 @@ This makes the system future-proof.
   }
 }
 ```
-####  BxGy
+
+---
+
+#### BxGy
 
 * Buy X products
 * Get Y products free
 * Supports repetition limit
 * Handles quantity calculations correctly
+
 ```json
 {
   "type": "bxgy",
@@ -207,31 +216,31 @@ This makes the system future-proof.
   }
 }
 ```
+
 ---
 
 ### API Endpoints
 
-2. **API Endpoints**
+* `POST /coupons` → Create new coupon
+* `GET /coupons` → Retrieve all coupons
+* `GET /coupons/{id}` → Retrieve coupon by ID
+* `PUT /coupons/{id}` → Update coupon
+* `DELETE /coupons/{id}` → Delete coupon
+* `POST /applicable-coupons` → List all applicable coupons for a cart
+* `POST /apply-coupon/{id}` → Apply a specific coupon to a cart
+* `GET /ping` → Health check
 
-   - `POST /coupons` → Create new coupon
-   - `GET /coupons` → Retrieve all coupons
-   - `GET /coupons/{id}` → Retrieve coupon by ID
-   - `PUT /coupons/{id}` → Update coupon
-   - `DELETE /coupons/{id}` → Delete coupon
-   - `POST /applicable-coupons` → List all applicable coupons for a cart
-   - `POST /apply-coupon/{id}` → Apply a specific coupon to a cart
-   - `GET /ping` → Health check
 ---
 
 ## 5. What Is NOT Covered
 
 The following features are intentionally not implemented:
 
-###  Coupon Expiration
+### Coupon Expiration
 
 No expiry date handling.
 
-###  Usage Limits
+### Usage Limits
 
 No tracking of number of times a coupon is used.
 
@@ -243,15 +252,15 @@ Coupons are global.
 
 Only one coupon can be applied at a time.
 
-###  Automatic Best Coupon Selection
+### Automatic Best Coupon Selection
 
 System does not automatically select the maximum discount coupon.
 
-###  Advanced Product Validation
+### Advanced Product Validation
 
 No external product catalog integration.
 
-###  Authentication / Authorization
+### Authentication / Authorization
 
 No login or role-based access control.
 
@@ -296,6 +305,103 @@ No login or role-based access control.
 ---
 
 ## 8. How to Run Tests
+
+```bash
+pytest
+```
+
+---
+
+## Description of Test Files
+
+### `conftest.py`
+
+* Contains shared pytest fixtures
+* Sets up test client
+* Configures test database
+* Provides reusable test setup
+* Ensures isolated test environment
+
+---
+
+### `test_coupon_api.py`
+
+* Tests all REST API endpoints
+* Validates:
+
+  * POST /coupons
+  * GET /coupons
+  * PUT /coupons/{id}
+  * DELETE /coupons/{id}
+  * POST /apply-coupon/{id}
+  * POST /applicable-coupons
+* Checks HTTP status codes
+* Validates response structure
+
+---
+
+### `test_coupon_engine.py`
+
+* Tests core coupon calculation logic
+* Validates:
+
+  * Cart-wise calculations
+  * Applicable coupon filtering
+  * Discount computation
+* Ensures engine correctly selects strategies
+
+---
+
+### `test_strategies.py`
+
+* Tests individual strategy classes:
+
+  * CartWiseStrategy
+  * ProductWiseStrategy
+  * BxGyStrategy
+* Validates:
+
+  * Correct discount calculation
+  * Edge cases
+  * Repetition logic (BxGy)
+  * Threshold conditions
+
+---
+
+### `test.http`
+
+* Used for manual API testing
+* Contains example HTTP requests
+* Helps test endpoints using:
+
+  * VS Code REST Client
+  * Postman
+  * Web-based HTTP tools
+
+---
+
+## pytest Configuration
+
+The project uses `pytest.ini` to standardize execution:
+
+```ini
+[pytest]
+pythonpath = .
+
+```
+
+This ensures:
+
+* Automatic test discovery
+* Clean verbose output
+* Organized test execution
+* Production-ready setup
+
+---
+
+## Running Tests
+
+From the project root:
 
 ```bash
 pytest
@@ -351,3 +457,5 @@ This project demonstrates:
 * Scalable coupon engine
 * Proper documentation of limitations
 * Production-ready structural thinking
+
+---
