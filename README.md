@@ -163,6 +163,7 @@ This makes the system future-proof.
 * Applies discount on total cart value
 * Threshold-based logic
 * Percentage discount
+
 ```json
 {
   "type": "cart-wise",
@@ -171,7 +172,7 @@ This makes the system future-proof.
     "discount": 10
   }
 }
-
+```
 ####  Product-wise
 
 * Applies discount to specific product
@@ -185,6 +186,7 @@ This makes the system future-proof.
     "discount": 20
   }
 }
+```
 ####  BxGy
 
 * Buy X products
@@ -204,6 +206,7 @@ This makes the system future-proof.
     "repition_limit": 2
   }
 }
+```
 ---
 
 ### API Endpoints
